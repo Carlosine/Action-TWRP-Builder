@@ -118,9 +118,9 @@ jobs:
 
     - name: Remove duplicate soong generator
       run: |
-        if [ -d "vendor/twrp/build/soong/generator" ]; then
+        if [ -d "build/soong/generator" ]; then
           echo "Found vendor/twrp/build/soong/generator, removing to avoid conflict..."
-          rm -rf vendor/twrp/build/soong/generator
+          rm -rf build/soong/generator
         else
           echo "No duplicate generator found."
         fi
