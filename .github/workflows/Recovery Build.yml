@@ -128,7 +128,7 @@ jobs:
 
     - name: Clone omni vendor
       run: |
-        git clone https://github.com/omnirom/android_vendor_omni -b android-12.1 vendor/omni
+        git clone https://github.com/omnirom/android_vendor_omni -b android-11 vendor/omni
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Clone device tree
