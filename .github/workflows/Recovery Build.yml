@@ -62,14 +62,11 @@ jobs:
         echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}.img"
         echo "::endgroup::"
 
-    # You might want to Checkout your repo first, but not mandatory
     - name: Check Out
       uses: actions/checkout@v4
 
-    # Cleanup The Actions Workspace Using Custom Composite Run Actions
     - name: Cleanup
       uses: rokibhasansagar/slimhub_actions@main
-      # That's it! Now use your normal steps
 
     - name: Prepare the environment
       run: |
@@ -118,10 +115,20 @@ jobs:
       run: |
         repo sync -j$(nproc --all) --force-sync
       working-directory: workspace
-      
+
+    - name: Remove duplicate soong generator
+      run: |
+        if [ -d "vendor/twrp/build/soong/generator" ]; then
+          echo "Found vendor/twrp/build/soong/generator, removing to avoid conflict..."
+          rm -rf vendor/twrp/build/soong/generator
+        else
+          echo "No duplicate generator found."
+        fi
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
     - name: Clone omni vendor
       run: |
-        git clone https://github.com/omnirom/android_vendor_omni -b android-11 vendor/omni
+        git clone https://github.com/omnirom/android_vendor_omni -b android-12.1 vendor/omni
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Clone device tree
