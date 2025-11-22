@@ -116,21 +116,6 @@ jobs:
         repo sync -j$(nproc --all) --force-sync
       working-directory: workspace
 
-    - name: Clone omni vendor
-      run: |
-        git clone https://github.com/omnirom/android_vendor_omni -b android-11 vendor/omni
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-
-    - name: Remove duplicate soong generator
-      run: |
-        if [ -d "vendor/omni/build/soong/generator" ]; then
-          echo "Found vendor/omni/build/soong/generator, removing to avoid conflict..."
-          rm -rf vendor/omni/build/soong/generator
-        else
-          echo "No duplicate generator found."
-        fi
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-
     - name: Clone device tree
       run: |
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
